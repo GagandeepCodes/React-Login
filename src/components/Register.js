@@ -66,7 +66,7 @@ export default function Register() {
             </p>
             <h1>Register</h1>
             <form>
-                <label htmlFor="username">
+                <label htmlFor="username" className="usertext">
                     Username:
                     <span className={validName ? "valid" : "hide"}>
                         <FontAwesomeIcon icon={faCheck}/>
@@ -77,6 +77,7 @@ export default function Register() {
                 </label>
                 <input
                     type="text"
+                    placeholder="Enter Username"
                     id="username"
                     ref={userRef}
                     autoComplete="off"
@@ -96,6 +97,67 @@ export default function Register() {
                     letters, numbers, underscores, hyphens allowed.
                 </p>
 
+                <label htmlFor="password" className="pwdtext">
+                    Password:
+                    <span className={validPwd ? "valid" : "hide"}>
+                        <FontAwesomeIcon icon={faCheck}/>
+                    </span>
+                    <span className={validPwd || !pwd ? "hide" : "invalid"}>
+                        <FontAwesomeIcon icon={faTimes}/>
+                    </span>
+                </label>
+
+                <input
+                    type="password"
+                    placeholder="Enter Password"
+                    id="password"
+                    onChange={(e) => setPwd(e.target.value)}
+                    value={pwd}
+                    required
+                    aria-invalid={validPwd ? "false" : "true"}
+                    aria-describedby="pwdnote"
+                    onFocus={() => setPwdFocus(true)}
+                    onBlur={() => setPwdFocus(false)}
+                />
+
+                <p id="pwdnote" className={pwdFocus && !validPwd ? "instructions" : "offscreen"}>
+                    <FontAwesomeIcon icon={faInfoCircle}/>
+                    8 to 24 characters.<br />
+                    Must include uppercase and lowercase letters, a number and a special character.<br />
+                    Allowed special characters: <span aria-label="exclamation mark">!</span> <span aria-label="at symbol">@</span> <span aria-label="hashtag">#</span> <span aria-label="dollar sign">$</span> <span aria-label="percent">%</span>
+                </p>
+
+                <label htmlFor="confirm_pwd" className="con_pwdtext">
+                    Confirm Password:
+                    <FontAwesomeIcon icon={faCheck} className={validMatch && matchPwd ? "valid" : "hide"} />
+                    <FontAwesomeIcon icon={faTimes} className={validMatch || !matchPwd ? "hide" : "invalid"} />
+                </label>
+
+                <input
+                    type="password"
+                    id="confirm_pwd"
+                    onChange={(e) => setMatchPwd(e.target.value)}
+                    value={matchPwd}
+                    required
+                    aria-invalid={validMatch ? "false" : "true"}
+                    aria-describedby="confirmnote"
+                    onFocus={() => setMatchFocus(true)}
+                    onBlur={() => setMatchFocus(false)}
+                />
+                <p id="confirmnote" className={matchFocus && !validMatch ? "instructions" : "offscreen"}>
+                    <FontAwesomeIcon icon={faInfoCircle} />
+                    Must match the first password input field.
+                </p>
+
+                <button disabled={!validName || !validPwd || !validMatch ? true : false}>Sign Up</button>
+
+                <p>
+                    Already registered?<br />
+                    <span className="line">
+                        {/*put router link here*/}
+                        <a href="#">Sign In</a>
+                    </span>
+                    </p>
             </form>
         </section>
     )
