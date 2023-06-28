@@ -58,14 +58,35 @@ export default function Register() {
         setErrMsg('');
     },[user,pwd,matchPwd]);
 
-
+    //e {event} will be passed on default, ou dont need to pass it in the handleSubmit
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        //if someone tries to hack it with JS knowledge
+        const v1 = USER_REGEX.test(user);
+        const v2 = PWD_REGEX.test(pwd);
+        if(!v1 || !v2){
+            setErrMsg("Invalid Entry");
+            return ;
+        }
+        setSuccess(true);
+    }
     return (
+        <>
+        { success ? (
+            <section>
+                <h1>Account created!</h1>
+                <p>
+                    <a href="#">Sign In</a>
+                </p>
+            </section>
+        ):(
         <section>
             <p ref = {errRef} className= {errMsg ? "errmsg" : "offscreen"} aria-live='assertive'>
                 {errMsg}
             </p>
             <h1>Register</h1>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <label htmlFor="username" className="usertext">
                     Username:
                     <span className={validName ? "valid" : "hide"}>
@@ -160,5 +181,7 @@ export default function Register() {
                     </p>
             </form>
         </section>
+        )}
+        </>
     )
   }
